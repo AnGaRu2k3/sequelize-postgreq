@@ -1,0 +1,53 @@
+
+
+{{> blogDetail}}
+<!-- Blog Details Section Begin -->
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row">
+            {{> sideBar}}
+            <div class="col-lg-8 col-md-7 order-md-1 order-1">
+                <div class="blog__details__text">
+                    <img src="/img/blog/details/details-pic.jpg" alt="">
+                    <p> {{blog.description}} </p>
+                </div>
+                <div class="blog__details__content">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="blog__details__author">
+                                <div class="blog__details__author__pic">
+                                    <img src="/img/blog/details/details-author.jpg" alt="">
+                                </div>
+                                <div class="blog__details__author__text">
+                                    <h6>{{user.firstName}} {{user.lastName}}</h6>
+                                    <span>{{isAdmin user.isAdmin}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="blog__details__widget">
+                                <ul>
+                                    <li><span>Categories:</span> {{{category.name}}}</li>
+                                    <li><span>Tags:</span>
+                                        {{#each tags}}
+                                            {{this}}
+                                            {{#unless @last}}, {{/unless}} <!-- Thêm dấu phẩy sau mỗi tag, trừ tag cuối cùng -->
+                                        {{/each}}
+                                    </li>
+                                </ul>
+                                <div class="blog__details__social">
+                                    <a href="#"><i class="fa fa-facebook"></i></a>
+                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#"><i class="fa fa-google-plus"></i></a>
+                                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                                    <a href="#"><i class="fa fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Section End -->

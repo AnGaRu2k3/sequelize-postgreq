@@ -1,0 +1,21 @@
+<!-- Blog Details Hero Begin -->
+
+<section class="blog-details-hero set-bg" data-setbg="/img/blog/details/details-hero.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="blog__details__hero__text">
+                    
+                    <h2>{{blog.title}}</h2>
+                    <ul>
+                        <li>By {{user.firstName}} {{user.lastName}}</li>
+                        <li>{{formatDate blog.createdAt}}</li>
+                        <li>{{comments.length}} Comments</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Blog Details Hero End -->

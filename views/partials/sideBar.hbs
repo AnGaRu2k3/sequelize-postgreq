@@ -1,0 +1,30 @@
+{{!-- Side Bar begin --}}
+<div class="col-lg-4 col-md-5">
+    <div class="blog__sidebar">
+        <div class="blog__sidebar__search">
+            <form onsubmit="process(event)" method = "get">
+                <input type="text" name="search" placeholder="Search...">
+                <button type="submit"><span class="icon_search"></span></button>
+            </form>
+        </div>
+        <div class="blog__sidebar__item">
+            <h4>Categories</h4>
+            <ul id="categoryList">
+                <li><a name="" href="">All</a></li>
+                {{#each groupedBlogsByCategoryData}}
+                <li><a name="{{category }}" href="">{{category}} ({{blogsCount}})</a></li>
+                {{/each}}
+            </ul>
+        </div>
+
+        <div class="blog__sidebar__item">
+            <h4>Search By Tags</h4>
+            <div class="blog__sidebar__item__tags" id="tagList">
+                {{#each allTags}}
+                    <a href="" name="{{this}}">{{this}}</a>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+{{!-- Side Bar end --}}
