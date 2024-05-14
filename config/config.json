@@ -13,11 +13,18 @@
       }
     }
   },
-  "tester": {
-    "username": "postgres",
-    "password": null,
-    "database": "development_database",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
-  }
+  "production": {
+    "username": "postgreqdemo",
+    "password": "r87Tj27ccrOlpFDygpnMy7OwSxA2ac7P",
+    "database": "postgreqdemo",
+    "host": "dpg-cp1j8c63e1ms738nb39g-a.oregon-postgres.render.com",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
 }
