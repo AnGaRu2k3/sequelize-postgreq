@@ -10,7 +10,7 @@
     "username": "postgreqdemo",
     "password": "r87Tj27ccrOlpFDygpnMy7OwSxA2ac7P",
     "database": "postgreqdemo",
-    "host": "dpg-cp1j8c63e1ms738nb39g-a",
+    "host": "dpg-cp1j8c63e1ms738nb39g-a.oregon-postgres.render.com",
     "port": 5432,
     "dialect": "postgres",
     "dialectOption": {
