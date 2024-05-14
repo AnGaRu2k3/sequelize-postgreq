@@ -5,5 +5,19 @@
     "database": "development_database",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "product": {
+    "username": "postgreqdemo",
+    "password": "r87Tj27ccrOlpFDygpnMy7OwSxA2ac7P",
+    "database": "postgreqdemo",
+    "host": "dpg-cp1j8c63e1ms738nb39g-a",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOption": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
