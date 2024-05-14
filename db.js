@@ -1,3 +1,4 @@
+require('dotenv').config()
 let models = require("./models");
 
 models.sequelize.sync({ force: true }).then(() => {
