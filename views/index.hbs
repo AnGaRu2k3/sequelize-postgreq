@@ -17,7 +17,7 @@
                                     <li><i class="fa fa-calendar-o"></i> {{formatDate dataValues.createdAt}}</li>
                                     <li><i class="fa fa-comment-o"></i> {{commentsCount}}</li>
                                 </ul>
-                                <h5><a href="details.html">{{dataValues.title}}</a></h5>
+                                <h5><a href="/blogs/{{dataValues.id}}">{{dataValues.title}}</a></h5>
                                 <p> {{first10char dataValues.description}} </p>
                                 <a href="/blogs/{{dataValues.id}}" class="blog__btn">READ MORE <span
                                         class="arrow_right"></span></a>
