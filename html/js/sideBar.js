@@ -49,45 +49,34 @@ function process(event) {
     // Tạo URL mới với các tham số curCategory, tags và search
     const page = localStorage.getItem('page')
     let Url = `/blogs?page=${page}`
-    if (searchValue.trim() != "" || qCategory != "" || qTags != "") {
-        if (searchValue.trim() != "") Url += `search=${searchValue}`;
-        if (qCategory != "") Url += `&category=${qCategory}`
-        
-        if (qTags != "") Url += `&tags=${qTags}` 
-    }
+ 
+    if (searchValue.trim() != "") Url += `search=${searchValue}`;
+    if (qCategory != "") Url += `&category=${qCategory}`
+    if (qTags != "") Url += `&tags=${qTags}` 
     // Chuyển hướng đến URL mới
     window.location.href = Url;
 }
 function processPage(newPage, event) {
     event.preventDefault()
-    const url = window.location.href
-    console.log(url.substring(34))
+    let searchParams = new URLSearchParams(window.location.search);
+    let currentPage = parseInt(searchParams.get('page')) || 1;
     if (newPage == "prev") {
-        let page = localStorage.getItem('page')
-        let nPage = parstInt(page)
-        if (page != 0) {
-            nPage --
-            localStorage.setItem('page', parstInt(nPage))
-        } 
-        // console.log(page)
-        let newUrl = `/blogs?page=${nPage}` + url.substring(34)
-        // console.log(newUrl)
-        window.location.href = newUrl
-        return
+        currentPage--;
+        if (currentPage != 0) {
+            searchParams.set('page', currentPage);
+            window.location.search = searchParams.toString();
+        }
+    } else if (newPage == "next")  {
+        currentPage++;
+        if (currentPage != 4) {
+            searchParams.set('page', currentPage);
+            window.location.search = searchParams.toString();
+        }
+    } else {
+        searchParams.set('page', newPage);
+        window.location.search = searchParams.toString();
     }
-    if (newPage == "next")  {
-        let page = localStorage.getItem('page')
-        let nPage = parstInt(page)
-        if (page != 3) {
-            nPage ++
-            localStorage.setItem('page', parstInt(nPage))
-        } 
-        let newUrl = `/blogs?page=${nPage}` + url.substring(34)
-        window.location.href = newUrl
-        return;
-    }
-    localStorage.setItem('page', parseInt(newPage))
-    let newUrl = `/blogs?page=${newPage}` + url.substring(34)
-    window.location.href = newUrl
+    
+    
 
 }

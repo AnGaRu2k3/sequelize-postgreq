@@ -1,17 +1,11 @@
 {
   "development": {
-    "username": "postgreqdemo",
-    "password": "r87Tj27ccrOlpFDygpnMy7OwSxA2ac7P",
-    "database": "postgreqdemo",
-    "host": "dpg-cp1j8c63e1ms738nb39g-a.oregon-postgres.render.com",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "postgres",
+    "host": "localhost",
     "port": 5432,
-    "dialect": "postgres",
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    }
+    "dialect": "postgres"
   },
   "production": {
     "username": "postgreqdemo",

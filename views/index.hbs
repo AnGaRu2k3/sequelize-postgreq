@@ -10,16 +10,16 @@
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="blog__item">
                             <div class="blog__item__pic">
-                                <img src="img{{blog.dataValues.imagePath}}" alt="">
+                                <img src="img{{dataValues.imagePath}}" alt="">
                             </div>
                             <div class="blog__item__text">
                                 <ul>
-                                    <li><i class="fa fa-calendar-o"></i> {{formatDate blog.dataValues.createdAt}}</li>
+                                    <li><i class="fa fa-calendar-o"></i> {{formatDate dataValues.createdAt}}</li>
                                     <li><i class="fa fa-comment-o"></i> {{commentsCount}}</li>
                                 </ul>
-                                <h5><a href="details.html">{{blog.dataValues.title}}</a></h5>
-                                <p> {{first10char blog.dataValues.description}} </p>
-                                <a href="/blogs/{{blog.dataValues.id}}" class="blog__btn">READ MORE <span
+                                <h5><a href="details.html">{{dataValues.title}}</a></h5>
+                                <p> {{first10char dataValues.description}} </p>
+                                <a href="/blogs/{{dataValues.id}}" class="blog__btn">READ MORE <span
                                         class="arrow_right"></span></a>
                             </div>
                         </div>

@@ -9,62 +9,60 @@ controller.allBlogs = async (req, res) => {
     try {
         // atribute to render sidebar
         const { groupedBlogsByCategoryData, allTags } = await computeSiderBarAtr();
-        const searchValue = req.query.search || "";
-        const category = req.query.category || "";
-        const tags = (req.query.tags || "").split(',');
-        console.log(tags, category, searchValue)
-        let blogs = await Blog.findAll();
+        const qSearchValue = req.query.search || "";
+        const qCategory = req.query.category || "";
+        const qTags = req.query.tags ? req.query.tags.split(',') : [];
+        const blogsList = await Blog.findAll();
+        const categoriesList = await Category.findAll();
+        const commentsList = await Comment.findAll();
+        const blogTagList = await Blog.findAll({
+            include: [{
+                model: Tag,
+                through: 'BlogTag', // Tên bảng liên kết giữa Blog và Tag
+            }]
+        });
+        let blogs = blogsList
         let filteredBlogs = [];
         // kiểm tra filterValue
-        if (searchValue != "") {
+        if (qSearchValue != "") {
             for (const blog of blogs)
-                if(!blog.title.toLowerCase().includes(searchValue.toLowerCase())) continue;
+                if(!blog.title.toLowerCase().includes(qSearchValue.toLowerCase())) continue;
                 else filteredBlogs.push(blog);
             blogs = filteredBlogs;
         }
         filteredBlogs = []
         // kiểm tra category
-        if (category != "") {
-            for (const blog of blogs) {
-                const categoryOfName = await Category.findOne({
-                    where: { name: category}
-                })
-                if (categoryOfName.id != blog.categoryId) continue;
-                else filteredBlogs.push(blog)
+        if (qCategory != "") {
+            for (const category of categoriesList) {
+                if (qCategory == category.name) {
+                    for (const blog of blogs) {
+                        if (blog.categoryId == qCategory) filteredBlogs.push(blog)
+                    }
+                }   
             }
             blogs = filteredBlogs;
         }
-        filteredBlogs = []  
+        filteredBlogs = []   
         // kiểm tra tag
-        if (tags.length != 0) {
-            for (const blog of blogs) {
-                const blogTag = await Blog.findOne({
-                    where: { id: blog.id },
-                    include: [{
-                        model: Tag,
-                        through: 'BlogTag', // Tên bảng liên kết giữa Blog và Tag
-                    }]
-                });
-                const listTags = blogTag.Tags.map(item => item.name);
-
-                if (!listTags.some(tag => tags.includes(tag))) {
-                    filteredBlogs.push(blog);
+        if (qTags.length != 0) {
+            for (const blogTag of blogTagList) {
+                const tags = blogTag.Tags.map(item => item.name)
+                for (const tag of tags) if (qTags.includes(tag)) {
+                    filteredBlogs.push(blogTag)
+                    break
                 }
             }
             blogs = filteredBlogs
         }
-        let blogsComments = []
-        for (const blog of blogs) {
-            const comments = await Comment.findAll({
-                where : {blogId: blog.id}
-            })
-            blogsComments.push({ 
-                blog: blog, 
-                commentsCount: comments.length 
-            });
-        }
 
-        blogs = blogsComments
+        // đếm commentCount
+        for (const blog of blogs) {
+            let cnt = 0
+            for (const comment of commentsList) {
+                if (comment.blogId == blog.id) cnt++
+            }
+            blog.commentsCount = cnt
+        }
         res.render("index", { groupedBlogsByCategoryData, allTags, blogs })
     } catch (error) {
         `console.error("Error fetching blogList:", error);
@@ -100,7 +98,6 @@ controller.detailBlog = async (req, res) => {
                 through: 'BlogTag', // Tên bảng liên kết giữa Blog và Tag
             }]
         });
-        console.log(blogTag.Tags)
         // console.log(blogTag)
         const tags = blogTag.Tags.map(item => item.name)
 
