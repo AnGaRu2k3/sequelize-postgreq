@@ -7,11 +7,16 @@ const { Op } = require("sequelize");
 const controller = {}
 controller.allBlogs = async (req, res) => {
     try {
-        // atribute to render sidebar
+        // lấy dữ liệu render sidebar
         const { groupedBlogsByCategoryData, allTags } = await computeSiderBarAtr();
+
+        // tham số query
         const qSearchValue = req.query.search || "";
         const qCategory = req.query.category || "";
         const qTags = req.query.tags ? req.query.tags.split(',') : [];
+        const qPage = req.query.page ? parseInt(req.query.page) : 1
+
+        // Lấy dữ liệu từ database
         const blogsList = await Blog.findAll();
         const categoriesList = await Category.findAll();
         const commentsList = await Comment.findAll();
@@ -21,6 +26,8 @@ controller.allBlogs = async (req, res) => {
                 through: 'BlogTag', // Tên bảng liên kết giữa Blog và Tag
             }]
         });
+
+        // khởi tạo filter
         let blogs = blogsList
         let filteredBlogs = [];
         // kiểm tra filterValue
@@ -35,8 +42,9 @@ controller.allBlogs = async (req, res) => {
         if (qCategory != "") {
             for (const category of categoriesList) {
                 if (qCategory == category.name) {
+                    console.log(qCategory)
                     for (const blog of blogs) {
-                        if (blog.categoryId == qCategory) filteredBlogs.push(blog)
+                        if (blog.categoryId == category.id) filteredBlogs.push(blog)
                     }
                 }   
             }
@@ -45,16 +53,16 @@ controller.allBlogs = async (req, res) => {
         filteredBlogs = []   
         // kiểm tra tag
         if (qTags.length != 0) {
-            for (const blogTag of blogTagList) {
+            for (const blog of blogs){
+                const blogTag = blogTagList.find(blogTag => blogTag.id == blog.id)
                 const tags = blogTag.Tags.map(item => item.name)
                 for (const tag of tags) if (qTags.includes(tag)) {
-                    filteredBlogs.push(blogTag)
+                    filteredBlogs.push(blog)
                     break
                 }
             }
             blogs = filteredBlogs
         }
-
         // đếm commentCount
         for (const blog of blogs) {
             let cnt = 0
@@ -63,6 +71,8 @@ controller.allBlogs = async (req, res) => {
             }
             blog.commentsCount = cnt
         }
+        // lấy 2 blog mỗi page
+        blogs = blogs.slice(2 * qPage - 2, 2 * qPage)
         res.render("index", { groupedBlogsByCategoryData, allTags, blogs })
     } catch (error) {
         `console.error("Error fetching blogList:", error);

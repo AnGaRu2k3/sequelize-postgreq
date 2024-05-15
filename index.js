@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const expressHbs = require('express-handlebars')
-
+const helpers = require("./helpers")
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -18,33 +18,14 @@ app.engine(
         partialsDir: __dirname + "/views/partials",
         extname: "hbs",
         defaultLayout: "layout",
-        helpers: {
-            formatDate: function (date) {
-                // Chuyển đổi ngày thành chuỗi có định dạng 'DD/MM/YYYY'
-                const formattedDate = new Date(date).toLocaleDateString('en-GB');
-                return formattedDate;
-            },
-            isAdmin: function(check) {
-                if(check === true) return "Admin"
-                return "user"
-            },
-            first10char: function(str) {
-                if (!str) return "";
-    
-                return str.slice(0, Math.min(20, str.length));
-                
-            }
-        },
-
+        helpers: helpers,
     })
 )
 
 
 app.set("view engine", "hbs");
 
-app.get("/", (req, res) => res.render("index"))
-
-
+app.use("/", require("./routes/homeRoutes"))
 app.use("/blogs", require("./routes/blogRoutes"))
 
 
